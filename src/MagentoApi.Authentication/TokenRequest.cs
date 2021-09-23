@@ -39,6 +39,7 @@ namespace Compori.MagentoApi.Authentication
             {
                 throw new ArgumentException("The enpoint adress must be set.", nameof(baseEndpointAddress));
             }
+            baseEndpointAddress = baseEndpointAddress.TrimEnd('/');
 
             if(string.IsNullOrWhiteSpace(userName))
             {

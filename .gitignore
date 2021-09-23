@@ -360,3 +360,4 @@ output
 # Ignore batch files
 *.ignore.cmd
 
+/samples/RequestToken/Properties/launchSettings.json
