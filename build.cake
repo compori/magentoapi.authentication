@@ -188,7 +188,7 @@ Task("Deploy")
     }
 
     // DeleteFiles(MakeAbsolute(outputDirectory).FullPath + "/*.symbols.nupkg");
-    packageFiles = GetFiles(MakeAbsolute(outputDirectory).FullPath + "/*.nupkg");
+    packageFiles = GetFiles(MakeAbsolute(packageDirectory).FullPath + "/*.nupkg");
 
     if(string.IsNullOrWhiteSpace(nugetDeployApiKey)) 
     {
