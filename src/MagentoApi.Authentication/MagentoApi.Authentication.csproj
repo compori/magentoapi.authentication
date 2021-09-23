@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0;net48</TargetFrameworks>
+    <AssemblyName>Compori.MagentoApi.Authentication</AssemblyName>
+    <RootNamespace>Compori.MagentoApi.Authentication</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Martin Monnier &lt;martin.monnier@compori.com&gt;</Authors>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/compori/magentoapi.authentication</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/compori/magentoapi.authentication</RepositoryUrl>
+    <Company>Compori</Company>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
