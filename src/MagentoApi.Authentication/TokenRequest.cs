@@ -28,7 +28,7 @@ namespace Compori.MagentoApi.Authentication
         /// <exception cref="ArgumentException">The password must be set. - password</exception>
         /// <exception cref="TokenRequestException"></exception>
         /// <exception cref="TokenRequestException">Could not request token. " + ex.Message</exception>
-        public async Task<string> RequestTokenAsync(TokenType tokenTyp, string baseEndpointAddress, string userAgent, string userName, string password, string httpAuthUser = null, string httpAuthPassword = null)
+        public static async Task<string> RequestTokenAsync(TokenType tokenTyp, string baseEndpointAddress, string userAgent, string userName, string password, string httpAuthUser = null, string httpAuthPassword = null)
         {
             if(tokenTyp != TokenType.Admin || tokenTyp == TokenType.Customer)
             {
@@ -76,12 +76,12 @@ namespace Compori.MagentoApi.Authentication
                     }
                     var response = await client.PostAsync(
                         baseEndpointAddress + $"/index.php/rest/V1/integration/{typeUrlPart}/token",
-                        this._CreateRequestContent(userName, password));
+                        CreateRequestContent(userName, password));
 
                     if (!response.IsSuccessStatusCode)
                     {
                         var message = "Error: " + response.ReasonPhrase + " (" + ((int)response.StatusCode).ToString() + ").";
-                        var additionalMessage = await this._GetMessageFromResponseContent(response.Content);
+                        var additionalMessage = await GetMessageFromResponseContent(response.Content);
                         if(additionalMessage != null)
                         {
                             message = message + " " + additionalMessage;
@@ -89,7 +89,7 @@ namespace Compori.MagentoApi.Authentication
                         throw new TokenRequestException(message);
                     }
 
-                    return await this._GetTokenFromResponseContent(response.Content);
+                    return await GetTokenFromResponseContent(response.Content);
                 }
             }
             catch (TokenRequestException)
@@ -111,7 +111,7 @@ namespace Compori.MagentoApi.Authentication
         /// <param name="userName">Name of the user.</param>
         /// <param name="password">The password.</param>
         /// <returns>StringContent.</returns>
-        private StringContent _CreateRequestContent(string userName, string password)
+        private static StringContent CreateRequestContent(string userName, string password)
         {
             var doc = new XmlDocument();
             XmlDeclaration xmldecl;
@@ -143,7 +143,7 @@ namespace Compori.MagentoApi.Authentication
         /// </summary>
         /// <param name="content">The content.</param>
         /// <returns>System.String.</returns>
-        private async Task<string> _GetTokenFromResponseContent(HttpContent content)
+        private static async Task<string> GetTokenFromResponseContent(HttpContent content)
         {
             var doc = new XmlDocument();
             var stream = await content.ReadAsStreamAsync();
@@ -161,7 +161,7 @@ namespace Compori.MagentoApi.Authentication
         /// </summary>
         /// <param name="content">The content.</param>
         /// <returns>System.String.</returns>
-        private async Task<string> _GetMessageFromResponseContent(HttpContent content)
+        private static async Task<string> GetMessageFromResponseContent(HttpContent content)
         {
             try
             {
@@ -187,7 +187,7 @@ namespace Compori.MagentoApi.Authentication
         /// <returns>Task&lt;System.String&gt;.</returns>
         Task<string> ITokenRequest.RequestTokenAsync(TokenType tokenTyp, string baseEndpointAddress, string userAgent, string userName, string password)
         {
-            return this.RequestTokenAsync(tokenTyp, baseEndpointAddress, userAgent, userName, password);
+            return RequestTokenAsync(tokenTyp, baseEndpointAddress, userAgent, userName, password);
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace Compori.MagentoApi.Authentication
         /// <returns>Task.</returns>
         Task<string> ITokenRequest.RequestTokenAsync(TokenType tokenTyp, string baseEndpointAddress, string userAgent, string userName, string password, string httpAuthUser, string httpAuthPassword)
         {
-            return this.RequestTokenAsync(tokenTyp, baseEndpointAddress, userAgent, userName, password, httpAuthUser, httpAuthPassword);
+            return RequestTokenAsync(tokenTyp, baseEndpointAddress, userAgent, userName, password, httpAuthUser, httpAuthPassword);
         }
     }
 }

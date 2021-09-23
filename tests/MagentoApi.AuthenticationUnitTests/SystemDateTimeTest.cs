@@ -9,7 +9,7 @@ namespace MagentoApi.AuthenticationUnitTests
     public class SystemDateTimeTest
     {
         [Fact]
-        void TestUtcNow()
+        public void TestUtcNow()
         {
             var sut = new SystemDateTime() as ISystemDateTime;
             var now = DateTime.UtcNow;

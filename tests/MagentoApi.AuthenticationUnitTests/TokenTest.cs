@@ -38,7 +38,7 @@ namespace MagentoApi.AuthenticationUnitTests
             settings = new TokenSettings();
             var argumentException = Assert.Throws<ArgumentException>(() => new Token(mockTokenRequest.Object, mockSystemDateTime.Object).Configure(settings));
             Assert.Contains("not supported", argumentException.Message);
-            Assert.Contains($"settings.{nameof(settings.TokenType)}", argumentException.ParamName);
+            Assert.Contains("settings", argumentException.ParamName);
 
             //
             // Token type is integration but no access token was set.
@@ -46,7 +46,7 @@ namespace MagentoApi.AuthenticationUnitTests
             settings = new TokenSettings() { TokenType = TokenType.Integration };
             argumentException = Assert.Throws<ArgumentException>(() => new Token(mockTokenRequest.Object, mockSystemDateTime.Object).Configure(settings));
             Assert.Contains("No access token provided for integration token type.", argumentException.Message);
-            Assert.Contains($"settings.{nameof(settings.AccessToken)}", argumentException.ParamName);
+            Assert.Contains("settings", argumentException.ParamName);
 
             //
             // Test integration token

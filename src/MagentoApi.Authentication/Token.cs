@@ -9,13 +9,13 @@ namespace Compori.MagentoApi.Authentication
         /// Gets the default expiration period for admin token.
         /// </summary>
         /// <value>The default expiration period for admin token.</value>
-        public static TimeSpan DefaultAdminTokenExpirationPeriod { get => new TimeSpan(4, 0, 0); }
+        public static TimeSpan DefaultAdminTokenExpirationPeriod => new TimeSpan(4, 0, 0);
 
         /// <summary>
         /// Gets the default customer token expiration period.
         /// </summary>
         /// <value>The default customer token expiration period.</value>
-        public static TimeSpan DefaultCustomerTokenExpirationPeriod { get => new TimeSpan(1, 0, 0); }
+        public static TimeSpan DefaultCustomerTokenExpirationPeriod => new TimeSpan(1, 0, 0);
 
         /// <summary>
         /// The expires datetime
@@ -144,7 +144,7 @@ namespace Compori.MagentoApi.Authentication
                     //
                     if(string.IsNullOrWhiteSpace(settings.AccessToken))
                     {
-                        throw new ArgumentException("No access token provided for integration token type.", $"{nameof(settings)}.{nameof(settings.AccessToken)}");
+                        throw new ArgumentException("No access token provided for integration token type.", nameof(settings));
                     }
                     this._token = Task.Run( () => settings.AccessToken );
                     break;
@@ -156,7 +156,7 @@ namespace Compori.MagentoApi.Authentication
                     this.ExpirationPeriod = settings.ExpirationPeriod ?? DefaultCustomerTokenExpirationPeriod;
                     break;
                 default:
-                    throw new ArgumentException($"Token type {settings.TokenType} not supported.", $"{nameof(settings)}.{nameof(settings.TokenType)}");
+                    throw new ArgumentException($"Token type {settings.TokenType} not supported.", nameof(settings));
             }
             
             this.TokenType = settings.TokenType;
@@ -240,7 +240,7 @@ namespace Compori.MagentoApi.Authentication
                     throw new InvalidOperationException("The token is not configured.");
                 }
 
-                switch(this.TokenType)
+                switch (this.TokenType)
                 {
                     case TokenType.Integration:
                         // Token is valid if token is set
@@ -248,11 +248,12 @@ namespace Compori.MagentoApi.Authentication
 
                     case TokenType.Admin:
                     case TokenType.Customer:
-                        
+
                         // Token is valid if token is set and not expired.
-                        return this._token != null 
-                            && this._expires.HasValue 
+                        return this._token != null
+                            && this._expires.HasValue
                             && this.SystemDateTime.UtcNow < this._expires.Value;
+                    case TokenType.Undefined:
                     default:
                         throw new InvalidOperationException("Token type is not supported.");
                 }

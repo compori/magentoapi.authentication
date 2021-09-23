@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Compori.MagentoApi.Authentication
+﻿namespace Compori.MagentoApi.Authentication
 {
     public class TokenFactory
     {
         /// <summary>
-        /// The token request
+        /// Gets the token request.
         /// </summary>
-        private ITokenRequest tokenRequest { get; }
+        /// <value>The token request.</value>
+        private ITokenRequest TokenRequest { get; }
 
         /// <summary>
-        /// The system date time
+        /// Gets the system date time.
         /// </summary>
-        private ISystemDateTime systemDateTime { get; }
+        /// <value>The system date time.</value>
+        private ISystemDateTime SystemDateTime { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TokenFactory"/> class.
@@ -25,8 +21,8 @@ namespace Compori.MagentoApi.Authentication
         /// <param name="systemDateTime">The system date time.</param>
         public TokenFactory(ITokenRequest tokenRequest, ISystemDateTime systemDateTime)
         {
-            this.tokenRequest = tokenRequest;
-            this.systemDateTime = systemDateTime;
+            this.TokenRequest = tokenRequest;
+            this.SystemDateTime = systemDateTime;
         }
 
         /// <summary>
@@ -36,7 +32,7 @@ namespace Compori.MagentoApi.Authentication
         /// <returns>Compori.MagentoApi.Authentication.IToken.</returns>
         public IToken Create(TokenSettings settings)
         {
-            var token = new Token(this.tokenRequest, this.systemDateTime);
+            var token = new Token(this.TokenRequest, this.SystemDateTime);
             token.Configure(settings);
             return token;
         }
